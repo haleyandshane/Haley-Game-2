@@ -1,5 +1,5 @@
 // Offline cache
-const CACHE = 'bs-home-upgrade-v1';
+const CACHE = 'bs-home-upgrade-v3_1';
 const ASSETS = [
   './',
   './index.html',

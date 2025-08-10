@@ -7,7 +7,7 @@
   </defs>
   <rect width="512" height="512" fill="url(#g)"/>
   <g transform="translate(256,256)">
-    <circle r="110" fill="white" stroke="#1f2937" stroke-width="10"/>
+    <rect x="-110" y="-110" width="220" height="220" rx="24" fill="#fff" stroke="#1f2937" stroke-width="10"/>
     <circle r="16" cx="-35" cy="-20" fill="#1f2937"/>
     <circle r="16" cx="35" cy="-20" fill="#1f2937"/>
     <path d="M -35 20 Q 0 55 35 20" stroke="#1f2937" stroke-width="10" fill="none" stroke-linecap="round"/>
