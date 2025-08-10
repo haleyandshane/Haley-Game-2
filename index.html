@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>Baby Steps — Home Upgrade</title>
+  <meta name="theme-color" content="#87C5FF">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <style>
+    :root{
+      --bg:#f7fbff; --ink:#0b1220; --muted:#5b687a; --card:#ffffff;
+      --primary:#0f62fe; --accent:#87C5FF; --ok:#10b981; --warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .wrap{max-width:520px;margin:0 auto;padding:18px 16px 32px;display:flex;flex-direction:column;gap:14px}
+    header{display:flex;align-items:center;gap:10px}
+    header img{width:36px;height:36px}
+    h1{font-size:20px;margin:0}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .card{background:var(--card);border:1px solid #e6eef7;border-radius:14px;padding:14px;
+      box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    .big{font-weight:800;font-size:36px}
+    .pill{border:1px solid #d7e6fb;border-radius:999px;padding:6px 10px;color:var(--muted);font-size:12px}
+    button{appearance:none;border:none;border-radius:12px;padding:14px 16px;background:var(--primary);
+      color:white;font-weight:700;font-size:16px;box-shadow:0 10px 18px rgba(15,98,254,.25);
+      -webkit-tap-highlight-color:transparent}
+    button:active{transform:translateY(1px)}
+    .secondary{background:white;color:var(--ink);border:1px solid #d7e6fb;box-shadow:none}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .tiny{font-size:12px;color:var(--muted)}
+    .timer{color:var(--ok);font-weight:600}
+    .garden{height:180px;background:linear-gradient(#d1f3ff,#f7fbff);border:1px dashed #cde3fb;border-radius:14px;display:grid;place-items:center;margin-top:8px}
+    .garden-scene{display:flex;gap:18px;align-items:end}
+    .plot{width:80px;height:80px;border:2px solid #9ad18b;border-radius:10px;background:#eaffea;display:grid;place-items:center;font-size:32px}
+    dialog{border:none;border-radius:14px;max-width:480px;width:90vw;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+    dialog .inner{padding:16px}
+    dialog::backdrop{background:rgba(0,0,0,.3)}
+    .odd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+    .tile{height:60px;border-radius:10px;border:1px solid #d7e6fb}
+    .install-tip{display:none;background:#fffdef;border:1px solid #ffe58f;color:#8b6d00;padding:10px;border-radius:10px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <img src="icons/icon-192.svg" alt="icon">
+      <div>
+        <h1>Baby Steps — Home Upgrade</h1>
+        <div class="tiny">Real chores power your cozy world.</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <div class="tiny">Coins</div>
+          <div id="coins" class="big">0</div>
+        </div>
+        <div class="pill">Rate: <span id="rate">1</span>/sec</div>
+        <div class="pill">Boost: <span id="boost">x1</span> <span id="boostTimer" class="timer"></span></div>
+      </div>
+      <div class="garden">
+        <div class="garden-scene">
+          <div class="plot" id="plot-tree">🌱</div>
+          <div class="plot" id="plot-bench">🪵</div>
+          <div class="plot" id="plot-pond">💧</div>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:10px">
+        <button id="upgradeTree">Upgrade Tree (cost 50)</button>
+        <button class="secondary" id="upgradeBench">Upgrade Bench (cost 80)</button>
+        <button class="secondary" id="upgradePond">Upgrade Pond (cost 100)</button>
+        <button id="openPuzzle">Quick Puzzle (+10 once/day)</button>
+      </div>
+      <div id="installTip" class="install-tip" style="margin-top:10px">Tip: Add to Home Screen for full-screen app experience.</div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <div><strong>Chores</strong> <span class="tiny">(complete to get x10 for 30 min)</span></div>
+        <button class="secondary" id="addChoreBtn">Add chore</button>
+      </div>
+      <div id="choreList" class="row" style="flex-direction:column;align-items:stretch;gap:8px;margin-top:8px"></div>
+    </div>
+
+    <div class="tiny">Private & offline. Data stays on this device.</div>
+  </div>
+
+  <dialog id="choreDialog">
+    <div class="inner">
+      <h3>Add a chore</h3>
+      <input id="choreInput" placeholder="e.g., Empty dishwasher" style="width:100%;padding:12px;border:1px solid #d7e6fb;border-radius:10px">
+      <div class="row" style="margin-top:10px;justify-content:flex-end">
+        <button class="secondary" id="cancelChore">Cancel</button>
+        <button id="saveChore">Save</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="puzzleDialog">
+    <div class="inner">
+      <h3>Find the odd tile</h3>
+      <div class="tiny">Tap the one that looks slightly different.</div>
+      <div id="puzzleGrid" class="odd-grid"></div>
+      <div class="row" style="justify-content:flex-end;margin-top:10px">
+        <button id="closePuzzle" class="secondary">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

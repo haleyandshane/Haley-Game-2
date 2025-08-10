@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A7D8FF"/>
+      <stop offset="100%" stop-color="#87C5FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#g)"/>
+  <g transform="translate(256,256)">
+    <circle r="110" fill="white" stroke="#1f2937" stroke-width="10"/>
+    <circle r="16" cx="-35" cy="-20" fill="#1f2937"/>
+    <circle r="16" cx="35" cy="-20" fill="#1f2937"/>
+    <path d="M -35 20 Q 0 55 35 20" stroke="#1f2937" stroke-width="10" fill="none" stroke-linecap="round"/>
+  </g>
+  <text x="256" y="480" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="64" fill="#1f2937">Baby Steps</text>
+</svg>
